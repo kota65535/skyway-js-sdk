@@ -87,13 +87,11 @@ function isSecure() {
  * @return {Object} Browser name and major, minor and patch versions. Object is empty if info can't be obtained.
  */
 function detectBrowser() {
-  const { name, version } = detect();
-  const [major, minor, patch] = version.split('.').map(i => parseInt(i));
   return {
-    name,
-    major,
-    minor,
-    patch,
+    name: 'dummy',
+    major: '0',
+    minor: '0',
+    patch: '1',
   };
 }
 
