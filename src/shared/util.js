@@ -117,6 +117,15 @@ function isPlanBSafari() {
   return true;
 }
 
+function toArrayBuffer(buf) {
+  const ab = new ArrayBuffer(buf.length);
+  const view = new Uint8Array(ab);
+  for (let i = 0; i < buf.length; ++i) {
+    view[i] = buf[i];
+  }
+  return ab;
+}
+
 export default {
   validateId,
   validateKey,
@@ -127,4 +136,5 @@ export default {
   isSecure,
   detectBrowser,
   isPlanBSafari,
+  toArrayBuffer,
 };

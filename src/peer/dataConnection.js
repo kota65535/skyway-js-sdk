@@ -1,4 +1,4 @@
-import BinaryPack from 'js-binarypack';
+import BinaryPack from 'ns-binarypack';
 import Enum from 'enum';
 import sizeof from 'object-sizeof';
 
@@ -156,7 +156,7 @@ class DataConnection extends Connection {
 
     // Everything below is for serialization binary or binary-utf8
 
-    const dataMeta = BinaryPack.unpack(msg.data);
+    const dataMeta = BinaryPack.unpack(Buffer.from(msg.data));
 
     // If we haven't started receiving pieces of data with a given id, this will be undefined
     // In that case, we need to initialise receivedData[id] to hold incoming file chunks
@@ -180,7 +180,7 @@ class DataConnection extends Connection {
 
       // recombine the sliced arraybuffers
       const ab = util.joinArrayBuffers(currData.parts);
-      const unpackedData = BinaryPack.unpack(ab);
+      const unpackedData = BinaryPack.unpack(Buffer.from(ab));
 
       let finalData;
       switch (currData.type) {
@@ -234,7 +234,7 @@ class DataConnection extends Connection {
     // Everything below is for serialization binary or binary-utf8
 
     const packedData = BinaryPack.pack(data);
-    const size = packedData.size;
+    const size = packedData.length;
     const type = data.constructor.name;
 
     const dataMeta = {
@@ -246,9 +246,6 @@ class DataConnection extends Connection {
 
     if (type === 'File') {
       dataMeta.name = data.name;
-    }
-    if (data instanceof Blob) {
-      dataMeta.mimeType = data.type;
     }
 
     // dataMeta contains all possible parameters by now.
@@ -267,10 +264,9 @@ class DataConnection extends Connection {
       dataMeta.data = slice;
 
       // Add all chunks to our buffer and start the send loop (if we haven't already)
-      util.blobToArrayBuffer(BinaryPack.pack(dataMeta), ab => {
-        this._sendBuffer.push(ab);
-        this._startSendLoop();
-      });
+      const ab = util.toArrayBuffer(BinaryPack.pack(dataMeta));
+      this._sendBuffer.push(ab);
+      this._startSendLoop();
     }
   }
 
