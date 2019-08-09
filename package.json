@@ -55,6 +55,7 @@
     "enum": "git+https://github.com/eastandwest/enum.git#react-native",
     "events": "^3.0.0",
     "js-binarypack": "0.0.9",
+    "ns-binarypack": "0.0.5",
     "object-sizeof": "^1.3.0",
     "query-string": "^6.4.0",
     "sdp-interop": "^0.1.13",

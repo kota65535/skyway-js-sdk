@@ -87,13 +87,11 @@ function isSecure() {
  * @return {Object} Browser name and major, minor and patch versions. Object is empty if info can't be obtained.
  */
 function detectBrowser() {
-  const { name, version } = detect();
-  const [major, minor, patch] = version.split('.').map(i => parseInt(i));
   return {
-    name,
-    major,
-    minor,
-    patch,
+    name: 'dummy',
+    major: '0',
+    minor: '0',
+    patch: '1',
   };
 }
 
@@ -119,6 +117,15 @@ function isPlanBSafari() {
   return true;
 }
 
+function toArrayBuffer(buf) {
+  const ab = new ArrayBuffer(buf.length);
+  const view = new Uint8Array(ab);
+  for (let i = 0; i < buf.length; ++i) {
+    view[i] = buf[i];
+  }
+  return ab;
+}
+
 export default {
   validateId,
   validateKey,
@@ -129,4 +136,5 @@ export default {
   isSecure,
   detectBrowser,
   isPlanBSafari,
+  toArrayBuffer,
 };

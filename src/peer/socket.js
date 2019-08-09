@@ -104,6 +104,9 @@ class Socket extends EventEmitter {
       'force new connection': true,
       query: query,
       reconnectionAttempts: config.reconnectionAttempts,
+      extraHeaders: {
+        Origin: 'http://localhost',
+      },
     });
 
     this._io.on('reconnect_failed', () => {
